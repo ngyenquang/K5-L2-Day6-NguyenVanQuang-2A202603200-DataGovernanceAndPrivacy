@@ -9,3 +9,4 @@ ts,scope,status,canonical,reason_code,reason,owner,evidence
 2026-11-14T15:35:32+00:00,t02,HOLD,HOLD,REVIEW_PENDING,20/20 top-B images not reviewed by a human yet,Nguyen Van Quang - reviewer,out\poc\ranked_review.csv;out\poc\review_queue.csv;out\poc\audit_log.jsonl
 2026-11-14T18:41:22+00:00,t02,HOLD,HOLD,REVIEW_PENDING,20/20 top-B images not reviewed by a human yet,Nguyen Van Quang - reviewer,out\poc\ranked_review.csv;out\poc\review_queue.csv;out\poc\audit_log.jsonl
 2026-11-14T18:41:44+00:00,t02,RECAPTURE,REWORK,DEFECT_RATE_ABOVE_LIMIT,45/96 images flagged (47%) > 10%; recapture flagged images,Nguyen Van Quang - reviewer,out\poc\ranked_review.csv;out\poc\review_queue.csv;out\poc\audit_log.jsonl
+2026-11-15T03:58:36+00:00,t02,RECAPTURE,REWORK,DEFECT_RATE_ABOVE_LIMIT,45/96 images flagged (47%) > 10%; recapture flagged images,Nguyen Van Quang - reviewer,out\poc\ranked_review.csv;out\poc\review_queue.csv;out\poc\audit_log.jsonl

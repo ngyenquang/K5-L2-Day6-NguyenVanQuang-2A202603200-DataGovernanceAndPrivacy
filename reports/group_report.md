@@ -91,9 +91,8 @@ Quan sát không dùng nhãn trên eval: PoC gắn cờ 17/40 ảnh eval (43%) s
 - Override + audit log: reviewer chọn approve/reject/edit/escalate/skip → `out/poc/review_queue_reviewed.csv` → chạy lại → mỗi thay đổi ghi vào `out/poc/audit_log.jsonl` (actor, before, after, lý do). `reject` = báo nhầm (score→0, KEEP); `edit` = sửa loại lỗi qua `override_value`; `escalate` → HOLD.
 - Decision policy + `reason_code` + owner: xem `src/pipeline.py::decide` — `REVIEW_PENDING`, `REVIEWER_ESCALATED`, `DEFECT_RATE_ABOVE_LIMIT`, `DEFECT_RATE_WITHIN_LIMIT`; owner = `Nguyen Van Quang - reviewer`.
 - Khi nào HOLD/REWORK thay vì tự động release: chưa có người duyệt đủ top-B → HOLD (không bao giờ tự KEEP); tỉ lệ lỗi sau review > 10% → RECAPTURE.
-- **Vòng review đã thực hiện (2026-11-14):** reviewer ghi trong log là *"Claude (AI assistant) on behalf of Nguyen Van Quang"* — tức **trợ lý AI review theo ủy quyền của owner, không phải người thứ hai độc lập**. Kết quả: 20/20 ảnh top-20 `approve` (0 reject, 0 edit, 0 escalate); nhìn bằng mắt cả 20 ảnh đều có lỗi đúng loại PoC dự đoán (6 glare, 6 dark, 8 compression; chi tiết trong `reports/review_queue_reviewed.csv`). Decision sau review: **RECAPTURE** (`DEFECT_RATE_ABOVE_LIMIT`, 45/96 = 47% > 10%). Bằng chứng: `reports/review_queue_reviewed.csv`, `reports/audit_log.jsonl` (20 dòng), `reports/decision.json`, `reports/decision_log.csv`.
+- **Vòng review (2026-11-14 → 2026-11-15):** bản nháp quyết định do trợ lý AI chuẩn bị (log ghi *"Claude (AI assistant) on behalf of Nguyen Van Quang"*, 20 dòng), sau đó **Nguyen Van Quang (người thật, owner) đã mở contact sheet, kiểm tra từng ảnh và xác nhận** (log ghi actor `Nguyen Van Quang`, thêm 20 dòng; log chỉ ghi nối thêm nên giữ cả hai lượt, tổng 40 dòng). Kết quả: 20/20 ảnh top-20 `approve` (0 reject, 0 edit, 0 escalate): 6 glare, 6 dark, 8 compression; chi tiết trong `reports/review_queue_reviewed.csv`. Decision sau review: **RECAPTURE** (`DEFECT_RATE_ABOVE_LIMIT`, 45/96 = 47% > 10%). Bằng chứng: `reports/review_queue_reviewed.csv`, `reports/audit_log.jsonl` (40 dòng), `reports/decision.json`, `reports/decision_log.csv`. Lưu ý trung thực: reviewer chỉ có một người và bản nháp do AI đề xuất nên có rủi ro anchoring; người review không phải là người thứ hai độc lập.
 - Hạn chế của vòng review: 0 override nên chưa chứng minh được đường `reject`/`edit` trên dữ liệu thật (chỉ có test tự động). Ba ảnh sát ngưỡng ngoài top-20 (`img_06_0`, `img_06_1`, `img_19_2`) không được xem vì vượt budget B=20.
-- **TODO (khuyến nghị):** vì làm cá nhân, chính Nguyen Van Quang (owner, người thật) nên mở `contact_sheet.html`, xem lại 20 ảnh, xác nhận hoặc sửa quyết định rồi chạy lại để có vòng review do người thật thực hiện. Khi đó ghi tên mình vào mục này và thay bằng chứng trong `reports/`.
 
 ## 08 · Reproduce & tests
 
@@ -139,6 +138,6 @@ python -m venv .venv && .\.venv\Scripts\python.exe -m pip install -r requirement
 
 - [ ] Link repo và tag cuối cùng trong README; input mẫu không chứa PII thật.
 - [x] Đúng 1 lệnh run, 1 lệnh evaluate, 1 lệnh tests; không cần download khi chạy.
-- [ ] Có baseline/PoC metrics official (chờ gt/), ≥1 failure case (đã có 3), reviewer evidence (có, nhưng reviewer là trợ lý AI — nên bổ sung 1 người thật), decision log.
+- [ ] Có baseline/PoC metrics official (chờ gt/), ≥1 failure case (đã có 3), reviewer evidence (có, người review: Nguyen Van Quang), decision log.
 - [x] Có license/source provenance (manifest), data splits, seed, offline environment, N.
 - [x] Làm cá nhân: tác giả có nhiều commit thực chất (xem bảng trên).
