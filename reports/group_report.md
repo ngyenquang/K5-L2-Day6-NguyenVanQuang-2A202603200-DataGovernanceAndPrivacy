@@ -10,9 +10,9 @@
 | Group ID | G27 |
 | Challenge | T02 · Raw QC Triage (blur / glare / dark / compression) |
 | Thành viên + vai trò | **Làm cá nhân** (theo labcoach): Nguyen Van Quang — Lead/Integrator, Core algorithm, QA, Review + report |
-| Git URL | https://github.com/ngyenquang/K5-Day6-L2-NguyenVanQuang-2A202603200-DataGovernanceAndPrivacy (các commit G27 chưa push lúc ghi report) |
-| Tag `demo-180m` (commit) | **TODO** |
-| Tag `final-24h` (commit) | **TODO** |
+| Git URL | https://github.com/ngyenquang/K5-Day6-L2-NguyenVanQuang-2A202603200-DataGovernanceAndPrivacy |
+| Tag `demo-180m` (commit) | `7315207` |
+| Tag `final-24h` (commit) | commit cuối cùng của repo (không thể tự ghi SHA vào chính commit đó) — xem `git rev-list -n 1 final-24h` |
 | Deadline (giờ VN) | 12:00 trưa 2026-11-15 |
 
 ## 01 · Problem statement
@@ -58,7 +58,7 @@
 | Recall@28 (B = #lỗi) | 0.821 (23/28) | 1.000 (28/28) | +0.179 |
 | False alarm top-20, cam_B (ảnh sạch) | 4/10 | 0/10 | baseline báo nhầm ảnh cam_B mềm |
 | Defect-type accuracy | n/a | 1.00 | baseline không dự đoán loại lỗi |
-| Runtime / 100 items | ~0.2 s / 96 ảnh | ~0.9 s / 96 ảnh | CPU, Python 3.13, Windows 11 |
+| Runtime / 100 items | 0.21 s | 0.39 s | do `src.compare` đo; dao động 0.3–0.9 s giữa các lần chạy; CPU, Python 3.13, Windows 11 |
 
 **Cảnh báo quan trọng:** ngưỡng PoC được chọn *trên chính các ảnh dev này* và nhãn do chính nhóm gắn, nên con số PoC trên dev là **lạc quan**, chưa phải bằng chứng tổng quát hoá. Số official trên eval (`reports/metrics_*.json`, `table1_baseline_vs_poc.md`) sẽ do giảng viên chạy `src.evaluate` với gt/ — **TODO: dán vào khi có**.
 Quan sát không dùng nhãn trên eval: PoC gắn cờ 17/40 ảnh eval (43%) so với 28/56 (50%) trên dev; vài ảnh sát ngưỡng (score 0.88–0.90: `img_06_0`, `img_06_1`, `img_19_2`) **nằm ngoài top-20** (hạng 20 có score 1.66) nên người review không thấy; nếu chúng là lỗi thật thì sẽ là miss — rủi ro cần kiểm khi có số official.
@@ -82,8 +82,10 @@ Quan sát không dùng nhãn trên eval: PoC gắn cờ 17/40 ảnh eval (43%) s
 - **Failure case 1 — glare cục bộ bị bỏ sót (baseline):** `img_02_2`, `img_20_3`, `img_18_2`, `img_22_3` là ảnh nét nhưng đèn pha/sương cháy sáng; Laplacian toàn ảnh xếp chúng hạng 60, 79, 32, 53 trên 96 ảnh. Root cause: sharpness không đo độ cháy. PoC dùng `cell_sat` (ô cháy nhất) → cả 4 ảnh có score 1.66–2.06.
 - **Failure case 2 — cam_B bị báo nhầm (baseline):** `img_09_0` (cam_B day) và `img_12_0` (cam_B dusk) nhìn bình thường nhưng vào top-20 baseline (hạng 19 và 17). Root cause: cam_B có median log-Laplacian thấp hơn cam_A (≈6.3 vs ≈7.0 trên ảnh sạch dev; `ctx.stats["camera_reference_log_lap"]`). PoC chuẩn hoá theo camera: `img_09_0` score 0.67.
 - **Failure case 3 — ảnh tối bị xếp cao vì sai lý do (baseline):** ảnh dark có Laplacian thấp nên baseline gộp với blur; PoC tách riêng `dark` qua p95 và không phạt ảnh đêm có đèn.
-- **Giới hạn đã biết của PoC:** các ảnh compression nhẹ nằm sát ngưỡng blockiness (dev: lỗi min 1.88 vs sạch max 1.70, ngưỡng 1.8) và chưa kiểm tra với ảnh ngoài miền (ảnh thật, JPEG khác); N dev nhỏ.
-- Latency / compute: ~0.9 s cho 96 ảnh (≈ 1 s/100 ảnh), CPU, Windows 11, Python 3.13.7.
+- **Giới hạn đã biết của PoC:** các ảnh compression nhẹ nằm sát ngưỡng blockiness (dev: lỗi min 1.88 vs sạch max 1.70, ngưỡng 1.8) N dev nhỏ.
+- **Giới hạn: điểm của các loại lỗi không cùng thang.** `score` là max của 4 điểm con có thang khác nhau (glare tới 16, dark tới 6, blur ≈ 1.1–1.2), nên khi số ảnh bị gắn cờ > B thì blur bị xếp thấp nhất. Dấu hiệu trên dev (B=20 < 28 lỗi): Recall@20 theo loại lỗi là blur 3/8, compression 9/10, glare 4/4, dark 4/6 (số tính bằng evaluator của repo với nhãn dev tự gắn). Trên eval PoC chỉ gắn cờ 17/40 (≤ B) nên ảnh blur không bị cắt, nhưng đây là rủi ro khi lô lỗi nhiều hơn B. Cách sửa (chưa làm, cần chọn trên dev): chuẩn hoá từng điểm con về cùng thang (ví dụ rank/percentile theo loại lỗi).
+- **Kiểm ngoài miền (mốc +24h):** `python -m tools.ood_check` lấy 10 ảnh (seed 42) từ pool `fixtures/t13_rare_mining` (cùng bộ sinh synthetic nên chỉ khác nội dung cảnh, **không** phải ảnh thật), chấm bằng ngưỡng đã chốt: **0/10 bị gắn cờ**, cao nhất `pool_158` = 0.90 (<1). Cả 10 ảnh đã xem bằng mắt: đều sạch. Kiểm này chỉ đo báo nhầm, không đo recall; chưa có ảnh thật (`data/real/` không có).
+- Latency / compute: 0.3–0.9 s cho 96 ảnh (≈ 0.4 s/100 ảnh theo `src.compare`), CPU, Windows 11, Python 3.13.7.
 
 ## 07 · Human & decision
 
@@ -91,7 +93,7 @@ Quan sát không dùng nhãn trên eval: PoC gắn cờ 17/40 ảnh eval (43%) s
 - Override + audit log: reviewer chọn approve/reject/edit/escalate/skip → `out/poc/review_queue_reviewed.csv` → chạy lại → mỗi thay đổi ghi vào `out/poc/audit_log.jsonl` (actor, before, after, lý do). `reject` = báo nhầm (score→0, KEEP); `edit` = sửa loại lỗi qua `override_value`; `escalate` → HOLD.
 - Decision policy + `reason_code` + owner: xem `src/pipeline.py::decide` — `REVIEW_PENDING`, `REVIEWER_ESCALATED`, `DEFECT_RATE_ABOVE_LIMIT`, `DEFECT_RATE_WITHIN_LIMIT`; owner = `Nguyen Van Quang - reviewer`.
 - Khi nào HOLD/REWORK thay vì tự động release: chưa có người duyệt đủ top-B → HOLD (không bao giờ tự KEEP); tỉ lệ lỗi sau review > 10% → RECAPTURE.
-- **Vòng review (2026-11-14 → 2026-11-15):** bản nháp quyết định do trợ lý AI chuẩn bị (log ghi *"Claude (AI assistant) on behalf of Nguyen Van Quang"*, 20 dòng), sau đó **Nguyen Van Quang (người thật, owner) đã mở contact sheet, kiểm tra từng ảnh và xác nhận** (log ghi actor `Nguyen Van Quang`, thêm 20 dòng; log chỉ ghi nối thêm nên giữ cả hai lượt, tổng 40 dòng). Kết quả: 20/20 ảnh top-20 `approve` (0 reject, 0 edit, 0 escalate): 6 glare, 6 dark, 8 compression; chi tiết trong `reports/review_queue_reviewed.csv`. Decision sau review: **RECAPTURE** (`DEFECT_RATE_ABOVE_LIMIT`, 45/96 = 47% > 10%). Bằng chứng: `reports/review_queue_reviewed.csv`, `reports/audit_log.jsonl` (40 dòng), `reports/decision.json`, `reports/decision_log.csv`. Lưu ý trung thực: reviewer chỉ có một người và bản nháp do AI đề xuất nên có rủi ro anchoring; người review không phải là người thứ hai độc lập.
+- **Vòng review (2026-11-14 → 2026-11-15):** bản nháp quyết định do trợ lý AI chuẩn bị (log ghi actor `AI`, 20 dòng; nhãn actor ở bản trong `reports/` được rút gọn thành `AI` sau khi chạy, bản gốc `out/poc/audit_log.jsonl` và lịch sử git `f277734` giữ nguyên chuỗi dài), sau đó **Nguyen Van Quang (người thật, owner) đã mở contact sheet, kiểm tra từng ảnh và xác nhận** (log ghi actor `Nguyen Van Quang`, thêm 20 dòng; log chỉ ghi nối thêm nên giữ cả hai lượt, tổng 40 dòng). Kết quả: 20/20 ảnh top-20 `approve` (0 reject, 0 edit, 0 escalate): 6 glare, 6 dark, 8 compression; chi tiết trong `reports/review_queue_reviewed.csv`. Decision sau review: **RECAPTURE** (`DEFECT_RATE_ABOVE_LIMIT`, 45/96 = 47% > 10%). Bằng chứng: `reports/review_queue_reviewed.csv`, `reports/audit_log.jsonl` (40 dòng), `reports/decision.json`, `reports/decision_log.csv`. Lưu ý trung thực: reviewer chỉ có một người và bản nháp do AI đề xuất nên có rủi ro anchoring; người review không phải là người thứ hai độc lập.
 - Hạn chế của vòng review: 0 override nên chưa chứng minh được đường `reject`/`edit` trên dữ liệu thật (chỉ có test tự động). Ba ảnh sát ngưỡng ngoài top-20 (`img_06_0`, `img_06_1`, `img_19_2`) không được xem vì vượt budget B=20.
 
 ## 08 · Reproduce & tests
@@ -105,7 +107,7 @@ python -m venv .venv && .\.venv\Scripts\python.exe -m pip install -r requirement
 ```
 
 - Output của `pytest` (`addopts = -q` đã có sẵn trong pyproject): `60 passed, 39 skipped` — 0 failed. 13 test của nhóm trong `tests/test_t02_pipeline.py`; test yêu cầu gt/ bị skip theo thiết kế.
-- Máy / OS / Python: Windows 11 · Python 3.13.7 · git sha: `f277734` (HEAD khi chạy; thêm commit report sau đó).
+- Máy / OS / Python: Windows 11 · Python 3.13.7 · git sha: `7315207` (HEAD khi chạy; có thể thêm commit sau đó).
 
 ## 09 · Limitations & ethics
 
@@ -120,7 +122,7 @@ python -m venv .venv && .\.venv\Scripts\python.exe -m pip install -r requirement
 
 | Học viên | Git author/email | Module / vai trò | Commit SHA / diff chứng minh | Trình bày? |
 |---|---|---|---|---|
-| Nguyen Van Quang (làm cá nhân) | nguyenquang / nguyenvanquang30112k4@gmail.com | pipeline, features, baseline, tests, report | `a82b40b`, `c0f1612`, `e2d37ad`, `4cc1095`, `f277734` | Có (trình bày một mình) |
+| Nguyen Van Quang (làm cá nhân) | nguyenquang / nguyenvanquang30112k4@gmail.com | pipeline, features, baseline, tests, report | `a82b40b`, `c0f1612`, `e2d37ad`, `4cc1095`, `f277734`, `6862674`, `7315207` | Có (trình bày một mình) |
 
 ## 11 · References
 
