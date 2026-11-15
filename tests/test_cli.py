@@ -14,7 +14,14 @@ from src.common.gt_guard import GroundTruthAccessError, disable_gt_guard, enable
 from src.common.offline import NetworkBlockedError, disable_offline_guard, enable_offline_guard
 
 
-def test_template_pipeline_fails_clearly_not_silently(tmp_path):
+def test_template_pipeline_fails_clearly_not_silently(tmp_path, monkeypatch):
+    # G27: our pipeline is implemented now, so simulate the untouched template to keep the exit-3 contract tested.
+    from src import pipeline
+
+    def _not_implemented(ctx, data):
+        raise NotImplementedError("template")
+
+    monkeypatch.setattr(pipeline, "process", _not_implemented)
     rc = runner.main(["--track", "t02", "--output", str(tmp_path), "--offline"])
     assert rc == 3                                   # NotImplemented -> explicit exit code
     info = json.loads((tmp_path / "run_info.json").read_text())
