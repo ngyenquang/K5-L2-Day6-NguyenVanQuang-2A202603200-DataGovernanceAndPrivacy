@@ -1,0 +1,57 @@
+image_id,defect_type,note
+img_00_0,none,
+img_00_1,none,
+img_00_2,compression,
+img_00_3,blur,
+img_02_0,none,
+img_02_1,none,
+img_02_2,glare,local headlight glare near plate
+img_02_3,dark,
+img_04_0,none,
+img_04_1,none,
+img_04_2,compression,
+img_04_3,blur,
+img_07_0,none,
+img_07_1,none,
+img_07_2,dark,
+img_07_3,blur,
+img_08_0,none,
+img_08_1,none,
+img_08_2,compression,mild
+img_08_3,dark,
+img_09_0,none,cam_B soft optics but acceptable
+img_09_1,none,
+img_09_2,blur,
+img_09_3,compression,mild
+img_10_0,none,
+img_10_1,none,
+img_10_2,compression,
+img_10_3,dark,
+img_11_0,none,
+img_11_1,none,
+img_11_2,compression,
+img_11_3,blur,
+img_12_0,none,
+img_12_1,none,
+img_12_2,compression,mild
+img_12_3,dark,
+img_14_0,none,
+img_14_1,none,
+img_14_2,blur,
+img_14_3,compression,
+img_18_0,none,
+img_18_1,none,
+img_18_2,glare,local headlight glare
+img_18_3,blur,night
+img_20_0,none,
+img_20_1,none,
+img_20_2,dark,
+img_20_3,glare,local headlight glare
+img_21_0,none,
+img_21_1,none,
+img_21_2,blur,
+img_21_3,compression,
+img_22_0,none,
+img_22_1,none,
+img_22_2,compression,
+img_22_3,glare,haze glare

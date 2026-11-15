@@ -1,0 +1,23 @@
+{
+  "status": "RECAPTURE",
+  "reason_code": "DEFECT_RATE_ABOVE_LIMIT",
+  "reason": "45/96 images flagged (47%) > 10%; recapture flagged images",
+  "owner": "Nguyen Van Quang - reviewer",
+  "scope": "t02",
+  "evidence": [
+    "out\\poc\\ranked_review.csv",
+    "out\\poc\\review_queue.csv",
+    "out\\poc\\audit_log.jsonl"
+  ],
+  "metrics": {
+    "n_images": 96,
+    "n_flagged": 45,
+    "defect_rate": 0.4688,
+    "max_defect_rate": 0.1,
+    "budget": 20,
+    "n_reviewed": 20,
+    "n_unreviewed_in_top_b": 0
+  },
+  "ts": "2026-11-14T18:41:44+00:00",
+  "canonical": "REWORK"
+}

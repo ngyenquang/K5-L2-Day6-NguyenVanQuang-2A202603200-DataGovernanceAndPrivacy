@@ -1,0 +1,21 @@
+rank,item_id,score,reason,suggested_action,slice,evidence_path,reviewer,reviewer_decision,override_value,review_note,reviewed_at
+1,img_17_2,16.666667,glare,RECAPTURE,day/cam_A,images/img_17_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
+2,img_15_3,6.767732,dark,RECAPTURE,dusk/cam_B,images/img_15_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+3,img_17_3,4.233939,dark,RECAPTURE,day/cam_A,images/img_17_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+4,img_23_3,4.168751,dark,RECAPTURE,day/cam_A,images/img_23_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+5,img_05_3,3.157407,glare,RECAPTURE,day/cam_A,images/img_05_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
+6,img_01_2,2.49925,dark,RECAPTURE,night/cam_A,images/img_01_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+7,img_12_3,2.409174,dark,RECAPTURE,dusk/cam_B,images/img_12_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+8,img_22_3,2.064815,glare,RECAPTURE,dusk/cam_A,images/img_22_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
+9,img_06_2,2.049247,compression,RECAPTURE,night/cam_B,images/img_06_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+10,img_22_2,2.030269,compression,RECAPTURE,dusk/cam_A,images/img_22_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+11,img_08_3,1.964017,dark,RECAPTURE,dusk/cam_A,images/img_08_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: scene almost black,2026-11-14T18:41:42+00:00
+12,img_20_3,1.935185,glare,RECAPTURE,day/cam_A,images/img_20_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
+13,img_00_2,1.88015,compression,RECAPTURE,day/cam_B,images/img_00_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+14,img_02_2,1.87037,glare,RECAPTURE,day/cam_A,images/img_02_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
+15,img_21_3,1.817757,compression,RECAPTURE,day/cam_B,images/img_21_3.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+16,img_04_2,1.81084,compression,RECAPTURE,dusk/cam_A,images/img_04_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+17,img_10_2,1.779643,compression,RECAPTURE,day/cam_A,images/img_10_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+18,img_05_2,1.752948,compression,RECAPTURE,day/cam_A,images/img_05_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+19,img_23_2,1.69721,compression,RECAPTURE,day/cam_A,images/img_23_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: visible 8px blocks / colour banding,2026-11-14T18:41:42+00:00
+20,img_18_2,1.662037,glare,RECAPTURE,night/cam_B,images/img_18_2.jpg,Claude (AI assistant) on behalf of Nguyen Van Quang,approve,,confirmed: blown-out highlight,2026-11-14T18:41:42+00:00
